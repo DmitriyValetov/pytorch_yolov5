@@ -1,0 +1,6 @@
+
+train: /media/dmitriy/main/data/blood_yolov5/train/images
+val: /media/dmitriy/main/data/blood_yolov5/valid/images
+
+nc: 3
+names: ['Platelets', 'RBC', 'WBC']
