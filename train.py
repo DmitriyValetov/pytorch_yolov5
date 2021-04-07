@@ -473,7 +473,9 @@ if __name__ == '__main__':
     parser.add_argument('--exist-ok', action='store_true', help='existing project/name ok, do not increment')
     parser.add_argument('--quad', action='store_true', help='quad dataloader')
     parser.add_argument('--linear-lr', action='store_true', help='linear LR')
-    opt = parser.parse_args()
+    
+    s = r'--img 416 --batch 8 --epochs 100 --data /media/dmitriy/main/data/tobacco_800/tobacco_data_zhugy/tobacco_yolov5/data.yaml --cfg ./models/custom_yolov5s.yaml --name yolov5s_results  --cache'
+    opt = parser.parse_args(s.split())
 
     # Set DDP variables
     opt.world_size = int(os.environ['WORLD_SIZE']) if 'WORLD_SIZE' in os.environ else 1
