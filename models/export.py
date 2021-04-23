@@ -28,6 +28,10 @@ if __name__ == '__main__':
     parser.add_argument('--grid', action='store_true', help='export Detect() layer grid')
     parser.add_argument('--device', default='cpu', help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
     opt = parser.parse_args()
+    
+    # s = r"--weights D:\data\logos_and_signatures\pytorch_yolov5\runs\train\yolov5s_results6\weights\best.pt --img 416 --batch 1"
+    # opt = parser.parse_args(s.split())
+
     opt.img_size *= 2 if len(opt.img_size) == 1 else 1  # expand
     print(opt)
     set_logging()
