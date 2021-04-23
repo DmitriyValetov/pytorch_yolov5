@@ -7,6 +7,7 @@ Usage:
 import argparse
 import sys
 import time
+from pathlib import Path
 
 sys.path.append('./')  # to run '$ python *.py' files in subdirectories
 
@@ -29,7 +30,7 @@ if __name__ == '__main__':
     parser.add_argument('--device', default='cpu', help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
     opt = parser.parse_args()
     
-    # s = r"--weights D:\data\logos_and_signatures\pytorch_yolov5\runs\train\yolov5s_results6\weights\best.pt --img 416 --batch 1"
+    # s = r"--grid --weights D:\data\logos_and_signatures\pytorch_yolov5\runs\train\yolov5s_results6\weights\best.pt --img 416 --batch 1"
     # opt = parser.parse_args(s.split())
 
     opt.img_size *= 2 if len(opt.img_size) == 1 else 1  # expand
@@ -67,7 +68,15 @@ if __name__ == '__main__':
         print('\nStarting TorchScript export with torch %s...' % torch.__version__)
         f = opt.weights.replace('.pt', '.torchscript.pt')  # filename
         ts = torch.jit.trace(model, img)
+        # ts = torch.jit.script(model, (img))
         ts.save(f)
+
+        attrs = {
+            'stride': model.stride,
+            'names': model.module.names if hasattr(model, 'module') else model.names
+        }
+        torch.save(attrs, Path(opt.weights).parent/'attributes.pt')
+
         print('TorchScript export success, saved as %s' % f)
     except Exception as e:
         print('TorchScript export failure: %s' % e)
